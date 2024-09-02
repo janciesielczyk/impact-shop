@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 export default function Page() {
   const { cart, totalValue, isLoading, removeFromCart, updateQuantity } = useCart();
-  const [showLoading, setShowLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
     // isLoading debouncing
