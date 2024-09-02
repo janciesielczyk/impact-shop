@@ -2,17 +2,17 @@
 import './header.scss';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCart } from '../context/CartContext';
+import { CartProduct, useCart } from '../context/CartContext';
 
 export function Header() {
     const pathname = usePathname()
     const { cart } = useCart();
 
-    const getCartProductsNumber = (c) => {
+    const getCartProductsNumber = (c: CartProduct[]) => {
         return cart.reduce((acc, curr) => {
             return acc + curr.quantity;
         }, 0);
-    } 
+    }
 
     return <div className="flex flex-row justify-between p-4 bg-sky-800 text-white">
         <div className="text-center"><Link href={`/`}><h1 className="text-lg">Impact Shop</h1></Link></div>
