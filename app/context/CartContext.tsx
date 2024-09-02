@@ -3,10 +3,14 @@
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { Product } from '../types/fakestoreapi';
 
+interface CartProduct extends Product {
+  quantity: number;
+}
+
 interface CartContextType {
-  cart: Product[];
+  cart: CartProduct[];
   totalValue: number;
-  addToCart: (product: Product) => void;
+  addToCart: (product: CartProduct) => void;
   removeFromCart: (productId: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
 }
@@ -14,15 +18,15 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<Product[]>([]);
+  const [cart, setCart] = useState<CartProduct[]>([]);
   const [totalValue, setTotalValue] = useState<string>('0');
 
   useEffect(() => {
-    const total = cart.reduce((acc, curr) => (acc + curr.price * curr.quantity), 0);
+    const total = cart.reduce((acc, curr) => (acc + parseFloat(curr.price) * curr.quantity), 0);
     setTotalValue(total.toFixed(2));
   }, [cart]);
 
-  const addToCart = (product: Product) => {
+  const addToCart = (product: CartProduct) => {
     const existingProduct = cart.find((item) => item.id === product.id);
     if (existingProduct) {
       setCart(
